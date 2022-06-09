@@ -2,15 +2,19 @@ package com.example.bookmanagerver2.ui;
 
 import static android.text.TextUtils.isEmpty;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.app.Dialog;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bookmanagerver2.R;
 import com.example.bookmanagerver2.dao.DaoController;
@@ -46,6 +50,14 @@ public class RegisterActivity extends AppCompatActivity {
         this.mDaoTHuThu = new DaoController(this);
 
         btDangKi.setOnClickListener(view -> {
+
+            Dialog dialog = new Dialog(RegisterActivity.this);
+            dialog.setContentView(R.layout.showloading);
+            Window window = dialog.getWindow();
+            window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            timerDelayRemoveDialog2(1000, dialog);
+            dialog.show();
             if (!etmatkhaucu.getText().toString().equals(LoginActivity.password)) {
                 tvghichu.setText("Old Password Incorrect");
                 tvghichu.setTextColor(Color.RED);
@@ -62,11 +74,10 @@ public class RegisterActivity extends AppCompatActivity {
             } else {
                 ThuThu thutthu1 = new ThuThu(LoginActivity.id, nhaplaimatkhaumoi.getText().toString());
                 if (mDaoTHuThu.changePassword(thutthu1) == true) {
+                    timerDelayRemoveDialog(1000, dialog, thutthu1);
+                    dialog.show();
                     Toast.makeText(this, "Edit successful", Toast.LENGTH_SHORT).show();
-                    this.onBackPressed();
 
-                } else {
-                    Toast.makeText(this, "Edit failed!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -87,5 +98,23 @@ public class RegisterActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         this.onBackPressed();
         return super.onSupportNavigateUp();
+    }
+
+    private void timerDelayRemoveDialog2(int i, Dialog dialog) {
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                dialog.dismiss();
+            }
+        }, i);
+    }
+
+    private void timerDelayRemoveDialog(int i, Dialog dialog, ThuThu thu) {
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                dialog.dismiss();
+                onBackPressed();
+            }
+        }, i);
+
     }
 }

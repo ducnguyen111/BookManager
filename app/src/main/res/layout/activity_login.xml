@@ -136,7 +136,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Copyright © "
+                    android:text="Version © "
                     android:textColor="@color/colorText" />
 
                 <TextView
@@ -144,7 +144,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:foreground="?android:attr/selectableItemBackground"
-                    android:text=" Đinh Thanh Minh"
+                    android:text="1.4.0 "
                     android:textColor="@color/colorXanhSang"
                     android:textStyle="bold" />
             </LinearLayout>
